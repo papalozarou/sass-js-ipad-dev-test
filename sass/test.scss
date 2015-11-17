@@ -1,0 +1,9 @@
+@import "_sbostrap.library.scss";
+
+// @include bootstrap();
+
+.selector {
+	font-family: sans-serif;
+// 	@include font-size-line-height(48,56);
+	color:$color__copy;
+}

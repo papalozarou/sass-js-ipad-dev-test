@@ -1,0 +1,95 @@
+// -----------------------------------------------------------------------------
+// Table of contents
+// --------------------------------------
+// 1.0 imports
+// 2.0 variables
+// 3.0 general
+// 4.0 type
+// 5.0 layout
+// 6.0 modules
+// -----------------------------------------------------------------------------
+
+// 1.0 imports
+// -----------------------------------------------------------------------------
+
+// 2.0 variables
+// -----------------------------------------------------------------------------
+// font family declarations are defined as variables and used throughout
+// sbostrap and base files
+// -----------------------------------------------------------------------------
+$path--fonts:"../fnt/";
+
+$font--sans-serif:"Source Sans Pro",sans-serif;
+$font--sans-serif--alternative:"Stag Sans",sans-serif;
+$font--serif:"Stag Web",serif;
+$font--icon:"SS Flow";
+$font--keyboard-shortcuts:Monaco,"Liberation Mono",Courier,monospace;
+
+$font--totri--body:Georgia,serif;
+$font--totri--header:$font--sans-serif;
+
+$font--icon--alternative:"Font Awesome";
+
+// 3.0 general
+// -----------------------------------------------------------------------------
+
+// 4.0 type
+// -----------------------------------------------------------------------------
+// Only including WOFF files as we don't need all the others for prototypes
+//
+// N.B. Source Sans is included via JS in html files from Google Fonts
+// -----------------------------------------------------------------------------
+@font-face {
+    font-family:"Stag Sans";
+    src:url("#{$path--fonts}StagSans-Light-Web.woff") format("opentype");
+    font-weight:100;
+    font-style:normal;
+}
+
+@font-face {
+    font-family:"Stag Sans";
+    src:url("#{$path--fonts}StagSans-Book-Web.woff") format("opentype");
+    font-weight:normal;
+    font-style:normal;
+}
+
+@font-face {
+    font-family:"Stag Sans";
+    src:url("#{$path--fonts}StagSans-Bold-Web.woff") format("opentype");
+    font-weight:bold;
+    font-style:normal;
+}
+
+@font-face {
+    font-family:"Stag Web";
+    src:url("#{$path--fonts}Stag-Light-Web.woff") format("opentype");
+    font-weight:100;
+    font-style:normal;
+}
+
+@font-face {
+    font-family:"Stag Web";
+    src:url("#{$path--fonts}Stag-Book-Web.woff") format("opentype");
+    font-weight:normal;
+    font-style:normal;
+}
+
+@font-face {
+    font-family:"Stag Web";
+    src:url("#{$path--fonts}Stag-Bold-Web.woff") format("opentype");
+    font-weight:bold;
+    font-style:normal;
+}
+
+@font-face {
+    font-family:"SS Flow";
+    src:url("#{$path--fonts}ss-flow.woff") format("opentype");
+    font-weight:normal;
+    font-style:normal;
+}
+
+// 5.0 layout
+// -----------------------------------------------------------------------------
+
+// 6.0 modules
+// -----------------------------------------------------------------------------

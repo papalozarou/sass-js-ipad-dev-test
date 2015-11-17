@@ -1,0 +1,254 @@
+// -----------------------------------------------------------------------------
+// Table of contents
+// --------------------------------------
+// 1.0 imports
+// 2.0 variables
+//  2.1 brand & base
+//  2.2 links
+//  2.3 type
+//  2.4 background, borders & gradients
+// 3.0 general
+// 4.0 type
+// 5.0 layout
+// 6.0 modules
+// -----------------------------------------------------------------------------
+
+// 1.0 imports
+// -----------------------------------------------------------------------------
+// compass import of images only, used for background gradients below
+// -----------------------------------------------------------------------------
+@import "compass/css3/images";
+
+// 2.0 variables
+// -----------------------------------------------------------------------------
+// all colors used in SBO live site, should have a separate file for wireframes
+// -----------------------------------------------------------------------------
+    // 2.1 brand & base
+    // -------------------------------------------------------------------------
+    $color__sunshine--light:#fed100;
+    $color__sunshine--dark:#e98300;
+
+    $color__cool-gray--light:#b2b4b3;
+    $color__cool-gray--dark:#8b8d8e;
+
+    $color__warm-gray--light:#d5d6d2;
+    $color__warm-gray--dark:#c7c2ba;
+
+    $color__taupe--light:#d7d3c7;
+    $color__taupe--dark:#beb9a6;
+
+    $color__brown:#4a3c31;
+
+    $color__black:#070c0f;
+
+    $color__white:#fff;
+
+    // 2.2 links
+    // -------------------------------------------------------------------------
+    $color__link:$color__sunshine--dark;
+    $color__link--visited:$color__link;
+    $color__link--hover:$color__link;
+    $color__link--active:$color__link;
+    $color__link--focus:$color__link;
+
+    $color__link--secondary:$color__brown;
+    $color__link--secondary--visited:$color__link--secondary;
+    $color__link--secondary--hover:$color__link;
+    $color__link--secondary--active:$color__link;
+    $color__link--secondary--focus:$color__link;
+
+    $color__link--tertiary:rgba($color__brown,.75);
+    $color__link--tertiary--visited:$color__link--tertiary;
+    $color__link--tertiary--hover:$color__link;
+    $color__link--tertiary--active:$color__link;
+    $color__link--tertiary--focus:$color__link;
+
+    // 2.3 type
+    // -------------------------------------------------------------------------
+    $color__copy:$color__brown;
+    $color__copy--secondary:#786d65; // this is $color__brown @ 75% opacity
+    $color__copy--tertiary:#777;
+
+    $color__copy--button:$color__white;
+    $color__copy--button--hover:$color__white;
+
+    $color__copy--button--alternative:$color__white;
+    $color__copy--button--alternative--hover:$color__white;
+
+    $color__copy--button--secondary:$color__white;
+    $color__copy--button--secondary--hover:$color__brown;
+
+    $color__copy--button--tertiary:$color__white;
+    $color__copy--button--tertiary--hover:$color__brown;
+
+    $color__copy--button--quarternary:$color__cool-gray--dark;
+    $color__copy--button--quarternary--hover:$color__link;
+
+    $color__copy--input:$color__brown;
+    // $color__copy--input--placeholder:;
+
+    // $color__copy--valid:;
+    // $color__copy--warning:;
+    $color__copy--error:#983222;
+
+    $color__copy--card-type-icon:$color__warm-gray--dark;
+
+    // 2.4 backgrounds, borders & gradients
+    // -------------------------------------------------------------------------
+    $color__background--page:#f4f3f0;
+    $color__background--page--totri:#e1dfda;
+    $color__background--navigation:#e7e5de;
+    $color__background--site-search:$color__white;
+
+    $color__background--email:$color__taupe--light;
+
+    $color__background--blog:$color__background--page;
+
+    $color__background--card:$color__white;
+    $color__background--card-reasons:#f7f7f7;
+    $color__background--panel:$color__white;
+    $color__background--button--explore:$color__white;
+
+    // -------------------------------------------------------------------------
+    // background for accordion-tabs at medium-large screens and above is 
+    // listed under background gradients below
+    // -------------------------------------------------------------------------
+    $color__background--accordion-tabs__label:$color__background--navigation;
+    $color__background--accordion-tabs__label--hover:$color__white;
+    $color__background--accordion-tabs__label--is-selected:$color__white;
+    $color__background--accordion-tabs__pane:$color__white;
+
+    // -------------------------------------------------------------------------
+    // background for context bar for medium-large screens is listed under
+    // background gradients below
+    // -------------------------------------------------------------------------
+    $color__background--context-bar--safari--small-screens:$color__brown;
+    $color__background--context-bar--entity:$color__background--page--totri;
+
+    $color__background--apps-promotion:$color__background--context-bar--entity;
+
+    // -------------------------------------------------------------------------
+    // background--button--hover, background--button--alternative--hover and
+    // background--button--secondary--hover currently use gradients
+    // -------------------------------------------------------------------------
+    $color__background--button:$color__sunshine--dark;
+    // $color__background--button--hover:;
+    $color__background--button--alternative:transparent;
+    // $color__background--button--alternative--hover:;
+    $color__background--button--secondary:$color__warm-gray--dark;
+    // $color__background--button--secondary--hover:;
+    $color__background--button--tertiary:$color__brown;
+    $color__background--button--tertiary--hover:$color__taupe--dark;
+
+    $color__background--button--quarternary:$color__white;
+    $color__background--button--quarternary--hover:$color__white;
+
+    $color__background--input:#eeeeed;
+    $color__background--input--valid:$color__white;
+    // $color__background--input--warning:;
+    $color__background--input--error:#fae0de;
+
+    $color__background--card-progress:$color__warm-gray--light;
+    $color__background--card-progress--completed:#999082;
+
+    $color__background--added-default-tags:$color__copy--secondary;
+
+    // -------------------------------------------------------------------------
+    // Mixins are used for gradients as you can't store mixin results inside
+    // a variable
+    // -------------------------------------------------------------------------
+    @mixin color__background-gradient--vertical() {
+        @include background-image(
+            linear-gradient(
+                $color__sunshine--light, $color__sunshine--dark
+            )
+        )
+    };
+    @mixin color__background-gradient--horizontal() {
+        @include background-image(
+            linear-gradient(
+                to right,
+                $color__sunshine--light, $color__sunshine--dark
+            )
+        )
+    };
+    @mixin color__background-gradient--diagonal() {
+        @include background-image(
+            linear-gradient(
+                45deg,
+                $color__sunshine--dark, $color__sunshine--light
+            )
+        )
+    };
+
+    @mixin color__background-gradient--context-bar--safari--medium-large-screens() {
+        @include background-image(
+            linear-gradient(
+                to right,
+                // -------------------------------------------------------------
+                // gradient starts at 190px so we can match up with brand area
+                // -------------------------------------------------------------
+                #606060 190px, #323232
+            )
+        )
+    };
+
+    // -------------------------------------------------------------------------
+    // background for accordion tabs generates two columns by using background
+    // gradient fill – $percentage variable denotes where column break is and 
+    // should be set to width of first column
+    // -------------------------------------------------------------------------
+    @mixin color__background-gradient--accordion-tabs--medium-large-and-above($percentage) {
+        @include background-image(
+            linear-gradient(
+                to right,
+                $color__background--accordion-tabs__label $percentage,
+                $color__background--accordion-tabs__pane $percentage
+            )
+        )
+    }
+
+    @mixin color__background-gradient--keyboard-shortcuts__keys() {
+        @include background-image(
+            linear-gradient(
+                #d8d8d8,
+                #f2f2f2
+            )
+        )
+    };
+
+    @mixin color__background-gradient--site-header--pork--medium-large-screens() {
+        @include background-image(
+            linear-gradient(
+                to right,
+                #717171,
+                #323232
+            )
+        )
+    }
+
+    $color__border--card:$color__warm-gray--light;
+    $color__border--pane:$color__warm-gray--light;
+
+    $color__border--input--valid:#008542;
+    // $color__border--input--warning:;
+    $color__border--input--error:#d52b1e;
+
+    $color__border--button--explore:$color__border--card;
+
+    $color__border--button--quarternary:$color__cool-gray--light;
+    $color__border--button--quarternary--hover:$color__link;
+
+    $color__border--blog-post-teaser:$color__taupe--light;
+
+// 3.0 general
+// -----------------------------------------------------------------------------
+
+// 4.0 type
+// -----------------------------------------------------------------------------
+
+// 5.0 layout
+// -----------------------------------------------------------------------------
+
+// 6.0 modules
+// -----------------------------------------------------------------------------

@@ -1,0 +1,807 @@
+// -----------------------------------------------------------------------------
+// Library file containing some useful mixins and extensions of compass mixins
+// -----------------------------------------------------------------------------
+
+
+// -----------------------------------------------------------------------------
+// Table of contents
+// -----------------------------------------------------------------------------
+// 1.0 imports
+// 2.0 variables
+// 3.0 general
+// - 3.1 bootstrap
+// 4.0 type
+// - 4.1 font settings
+// - 4.2 links
+// 5.0 layout
+// - 5.1 position
+// - 5.2 width and height
+// - 5.3 margin
+// - 5.4 padding
+// 6.0 modules
+// -----------------------------------------------------------------------------
+
+
+// 1.0 imports
+// -----------------------------------------------------------------------------
+// compass imports first, then sbostrap imports, separated by a line break for
+// easier readability – our three other sbostrap files are also imported for use
+// in the various mixins contained within this file
+// -----------------------------------------------------------------------------
+@import "compass";
+
+@import "sbostrap.colors.scss";
+@import "sbostrap.fonts.scss";
+@import "sbostrap.breakpoints.scss";
+
+// 2.0 variables
+// -----------------------------------------------------------------------------
+// Two variables that define the width of the collapsed and expanded navigation
+// at larger screen sizes – these are used throughout the base scss files
+// -----------------------------------------------------------------------------
+$navigation-width--collapsed:55px;
+$navigation-width--expanded:190px;
+
+// 3.0 general
+// -----------------------------------------------------------------------------
+// very basic global reset
+// -----------------------------------------------------------------------------
+@mixin reset() {
+	margin:0;
+	padding:0;
+	border:none;
+}
+
+// 3.1 bootstrap
+// -----------------------------------------------------------------------------
+// mixin that provides resets and other things – $page-background can be
+// supplied to change background-color of body element
+// -----------------------------------------------------------------------------
+@mixin bootstrap(
+		// properties
+		// ---------------------------------------------------------------------
+		$font:$font--sans-serif,
+		$font-color:$color__copy,
+		$page-background:$color__background--page
+		// ---------------------------------------------------------------------
+	) {
+	* {
+		@include reset();
+		text-rendering:optimizeLegibility;
+		-webkit-font-feature-settings:"kern" "liga";
+		-moz-font-feature-settings:"kern" "liga";
+		font-feature-settings:"kern" "liga";
+		font-kerning:normal;
+		-webkit-text-size-adjust:100%;
+		-ms-text-size-adjust:100%;
+	}
+
+	body {
+		font-family:$font;
+		background:$page-background;
+	}
+
+	html {
+		font-size:62.5%;
+		color:$font-color;
+	}
+
+	.accessibility {
+		display:none;
+	}
+
+
+	main, header, hgroup, nav, section, article, aside, figure, figcaption, details, summary, footer, legend {
+		display:block;
+	}
+
+	br:last-child {
+		clear:both;
+	}
+}
+
+
+// 4.0 type
+// -----------------------------------------------------------------------------
+// 4.1 font settings
+// -----------------------------------------------------------------------------
+// sets font size in rems with pixel fallback
+// -----------------------------------------------------------------------------
+@mixin font-size(
+		// properties
+		// ---------------------------------------------------------------------
+		$size
+		// ---------------------------------------------------------------------
+	) {
+	font-size:$size + px;
+	font-size:($size / 10) + rem;
+}
+
+// -----------------------------------------------------------------------------
+// sets line-height – with 1.5em default – in rems with pixel fallback
+// -----------------------------------------------------------------------------
+@mixin line-height(
+		// properties
+		// ---------------------------------------------------------------------
+		$leading:1.5em
+		// ---------------------------------------------------------------------
+	) {
+	@if unit($leading) == "em" {
+		line-height:$leading;
+	} @else {
+		line-height:$leading + px;
+		line-height:($leading / 10) + rem;
+	}
+}
+
+// -----------------------------------------------------------------------------
+// sets line-height – with 1.5em default – in rems with pixel fallback
+// -----------------------------------------------------------------------------
+@mixin font-size-line-height(
+		// properties
+		// ---------------------------------------------------------------------
+		$size,
+		$leading:1.5em
+		// ---------------------------------------------------------------------
+	) {
+	@include font-size($size);
+	@include line-height($leading);
+}
+
+// -----------------------------------------------------------------------------
+// styles all typographic elements, with margins, allowing for medium and large
+// font sizes being the same
+// -----------------------------------------------------------------------------
+@mixin global-typography(
+		// properties
+		// ---------------------------------------------------------------------
+		$font-family--headers:$font--sans-serif,
+		$font-family--body:$font--sans-serif,
+		$font-color--header:#000,
+		$font-color--body:$color__copy,
+		$font-color--secondary:$color__copy--secondary,
+		$font-color--error:$color__copy--error,
+		$font-size--small:16,
+		$leading--small:24,
+		$font-size--medium:$font-size--small,
+		$leading--medium:$leading--small,
+		$font-size--large:$font-size--small,
+		$leading--large:$leading--small
+		// ---------------------------------------------------------------------
+	) {
+	h1, h2, h3, h4, h5, h6 {
+		font-family:$font-family--headers;
+		color:$font-color--header;
+	}
+
+	h1, h2, h3, h4 {
+		font-weight:300;
+	}
+
+	h5, h6 {
+		font-weight:700;
+	}
+
+	h1 {
+		@include font-size-line-height(($font-size--small * 2.25),($leading--small * 2));
+		@include margin-bottom($leading--small);
+		@media (min-width:$breakpoint--medium) {
+			@include font-size-line-height(($font-size--medium * 2.25),($leading--medium * 2));
+			@include margin-bottom($leading--medium);
+		}
+		// ---------------------------------------------------------------------
+		// only outputs the following if font-size--medium is less than
+		// font-size--large
+		// ---------------------------------------------------------------------
+		@if $font-size--medium < $font-size--large {
+			@media (min-width:$breakpoint--large) {
+				@include font-size-line-height(($font-size--large * 2.25),($leading--large * 2));
+				@include margin-bottom($leading--large);
+			}
+		}
+	}
+
+	h2 {
+		@include font-size-line-height(($font-size--small * 2.25),($leading--small *  1.166666667));
+		@include margin-bottom($leading--small * .666666667);
+		@media (min-width:$breakpoint--medium) {
+			@include font-size-line-height(($font-size--medium * 1.5),($leading--medium * 1.5));
+			@include margin-bottom($leading--medium * .75);
+		}
+		// ---------------------------------------------------------------------
+		// only outputs the following if font-size--medium is less than
+		// font-size--large
+		// ---------------------------------------------------------------------
+		@if $font-size--medium < $font-size--large {
+			@media (min-width:$breakpoint--large) {
+				@include font-size-line-height(($font-size--large * 1.5),($leading--large * 1.5));
+				@include margin-bottom($leading--large * .75);
+			}
+		}
+	}
+
+	h3 {
+		@include font-size-line-height(($font-size--small * 1.375),($leading--small));
+		@include margin-bottom($leading--small / 2);
+		@media (min-width:$breakpoint--medium) {
+			@include font-size-line-height(($font-size--medium * 1.333333333),($leading--medium));
+			@include margin-bottom($leading--medium / 2);
+		}
+		// ---------------------------------------------------------------------
+		// only outputs the following if font-size--medium is less than
+		// font-size--large
+		// ---------------------------------------------------------------------
+		@if $font-size--medium < $font-size--large {
+			@media (min-width:$breakpoint--large) {
+				@include font-size-line-height(($font-size--large * 1.333333333),($leading--large));
+				@include margin-bottom($leading--large / 2);
+			}
+		}
+	}
+
+	h4 {
+		@include font-size-line-height(($font-size--small * 1.125),($leading--small));
+		@include margin-bottom($leading--small / 3);
+		@media (min-width:$breakpoint--medium) {
+			@include font-size-line-height(($font-size--medium * 1.111111111),($leading--medium));
+			@include margin-bottom($leading--medium / 3);
+		}
+		// ---------------------------------------------------------------------
+		// only outputs the following if font-size--medium is less than
+		// font-size--large
+		// ---------------------------------------------------------------------
+		@if $font-size--medium < $font-size--large {
+			@media (min-width:$breakpoint--large) {
+				@include font-size-line-height(($font-size--large * 1.111111111),($leading--large));
+				@include margin-bottom($leading--large / 3);
+			}
+		}
+	}
+
+	h5, legend {
+		@include font-size-line-height(($font-size--small),($leading--small));
+		@include margin-bottom($leading--small / 4);
+		@media (min-width:$breakpoint--medium) {
+			@include font-size-line-height(($font-size--medium),($leading--medium));
+			@include margin-bottom($leading--medium / 4);
+		}
+		// ---------------------------------------------------------------------
+		// only outputs the following if font-size--medium is less than
+		// font-size--large
+		// ---------------------------------------------------------------------
+		@if $font-size--medium < $font-size--large {
+			@media (min-width:$breakpoint--large) {
+				@include font-size-line-height(($font-size--large),($leading--large));
+				@include margin-bottom($leading--large / 4);
+			}
+		}
+	}
+
+	h6 {
+		@include font-size-line-height(($font-size--small * 1.125),($leading--small));
+		text-transform:uppercase;
+		@media (min-width:$breakpoint--medium) {
+			@include font-size-line-height(($font-size--medium * .777777778),($leading--medium));
+		}
+		// ---------------------------------------------------------------------
+		// only outputs the following if font-size--medium is less than
+		// font-size--large
+		// ---------------------------------------------------------------------
+		@if $font-size--medium < $font-size--large {
+			@media (min-width:$breakpoint--large) {
+				@include font-size-line-height(($font-size--large * .761904762),($leading--large));
+			}
+		}
+	}
+
+	p, ol, ul, dl, q, address, table, td, th, input, select, textarea, label {
+		@include font-size-line-height($font-size--small,$leading--small);
+		font-family:$font-family--body;
+		@media (min-width:$breakpoint--medium) {
+			@include font-size-line-height($font-size--medium,$leading--medium);
+		}
+		// ---------------------------------------------------------------------
+		// only outputs the following if font-size--medium is less than
+		// font-size--large
+		// ---------------------------------------------------------------------
+		@if $font-size--medium < $font-size--large {
+			@media (min-width:$breakpoint--large) {
+				@include font-size-line-height($font-size--large,$leading--large);
+			}
+		}
+	}
+
+	p, ol, ul, dl, address {
+		@include margin-bottom($leading--small);
+		&:last-child {
+			margin-bottom:0;
+		}
+		@media (min-width:$breakpoint--medium) {
+			@include margin-bottom($leading--medium);
+			&:last-child {
+				margin-bottom:0;
+			}
+		}
+		// ---------------------------------------------------------------------
+		// only outputs the following if font-size--medium is less than
+		// font-size--large
+		// ---------------------------------------------------------------------
+		@if $font-size--medium < $font-size--large {
+			@media (min-width:$breakpoint--large) {
+				@include margin-bottom($leading--large);
+				&:last-child {
+					margin-bottom:0;
+				}
+			}
+		}
+	}
+
+	ol, ul {
+		margin-left:$leading--small + px;
+		@media (min-width:$breakpoint--medium) {
+			margin-left:0;
+		}
+	}
+
+	ol {
+		list-style:lower-roman;
+	}
+	ul {
+		list-style:square;
+	}
+	dt {
+		font-weight:700;
+	}
+
+	li, dd {
+		@include margin-bottom($leading--small / 4);
+		&:last-child {
+			margin-bottom:0;
+		}
+		@media (min-width:$breakpoint--medium) {
+			@include margin-bottom($leading--medium / 4);
+			&:last-child {
+				margin-bottom:0;
+			}
+		}
+		// ---------------------------------------------------------------------
+		// only outputs the following if font-size--medium is less than
+		// font-size--large
+		// ---------------------------------------------------------------------
+		@if $font-size--medium < $font-size--large {
+			@media (min-width:$breakpoint--large) {
+				@include margin-bottom($leading--large / 4);
+				&:last-child {
+					margin-bottom:0;
+				}
+			}
+		}
+	}
+
+	address {
+		font-style:normal;
+	}
+	input[type="text"], textarea {
+		color:$font-color--body;
+		&:focus {
+			color:$font-color--body;
+		}
+		@include input-placeholder {
+		    color:$font-color--secondary;
+		}
+		&.form-field--has-error {
+			@include input-placeholder {
+			    color:$font-color--error;
+			}			
+		}
+	}
+	blockquote {
+		font-style:italic;
+		color:$font-color--secondary;
+	}
+	del {
+		text-decoration:line-through;
+	}
+	ins {
+		text-decoration:underline overline;
+	}
+
+	small, figcaption {
+		@include font-size-line-height(($font-size--small * .75),($leading--small * .75));
+		@media (min-width:$breakpoint--medium) {
+			@include font-size-line-height(($font-size--medium * .666666667),($leading--medium * .642857143));
+		}
+		// ---------------------------------------------------------------------
+		// only outputs the following if font-size--medium is less than
+		// font-size--large
+		// ---------------------------------------------------------------------
+		@if $font-size--medium < $font-size--large {
+			@media (min-width:$breakpoint--large) {
+				@include font-size-line-height(($font-size--large * .666666667),($leading--large * .642857143));
+			}
+		}
+	}
+
+	sub, sup {
+		@include font-size-line-height(($font-size--small * .75),($leading--small / 2));
+		font-weight:700;
+		@media (min-width:$breakpoint--medium) {
+			@include font-size-line-height(($font-size--medium * .666666667),($leading--medium * .428571429));
+		}
+		// ---------------------------------------------------------------------
+		// only outputs the following if font-size--medium is less than
+		// font-size--large
+		// ---------------------------------------------------------------------
+		@if $font-size--medium < $font-size--large {
+			@media (min-width:$breakpoint--large) {
+				@include font-size-line-height(($font-size--large * .666666667),($leading--large * .428571429));
+			}
+		}
+	}
+
+	figcaption {
+		color:$font-color--secondary;
+	}
+
+	abbr {
+		color:$font-color--header;
+		cursor:help;
+	}
+	q {
+		font-style:italic;
+	}
+
+	cite {
+		@include font-size-line-height(($font-size--small * .5625),($leading--small * .75));
+		font-weight:700;
+		font-style:normal;
+		text-transform:uppercase;
+		@media (min-width:$breakpoint--medium) {
+			@include font-size-line-height(($font-size--medium / 2),($leading--medium / 2));
+		}
+		// ---------------------------------------------------------------------
+		// only outputs the following if font-size--medium is less than
+		// font-size--large
+		// ---------------------------------------------------------------------
+		@if $font-size--medium < $font-size--large {
+			@media (min-width:$breakpoint--large) {
+				@include font-size-line-height(($font-size--large / 2),($leading--large / 2));
+			}
+		}
+	}
+
+	def {
+		font-weight:700;
+		font-style:italic;
+	}
+
+	mark {
+		background:$font-color--secondary;
+	}
+
+	pre, code, kbd, samp {
+		@include font-size-line-height($font-size--small,$leading--small);
+		font-family:monospace;
+		@media (min-width:$breakpoint--medium) {
+			@include font-size-line-height($font-size--medium,$leading--medium);
+		}
+		// ---------------------------------------------------------------------
+		// only outputs the following if font-size--medium is less than
+		// font-size--large
+		// ---------------------------------------------------------------------
+		@if $font-size--medium < $font-size--large {
+			@media (min-width:$breakpoint--large) {
+				@include font-size-line-height($font-size--large,$leading--large);
+			}
+		}
+	}
+
+	time {
+		color:$font-color--secondary;
+	}
+	th, strong {
+		font-weight:700;
+	}
+	var, em {
+		font-style:italic;
+	}
+}
+
+// 4.2 links
+// -----------------------------------------------------------------------------
+// uses compass' link-colors mixin, $has-underline can be true, false or
+// on-hover, and is applied to hover, focus and active states
+// -----------------------------------------------------------------------------
+@mixin links(
+		// properties
+		// ---------------------------------------------------------------------
+		$link:$color__link,
+		$link--visited:darken($link,10%),
+		$link--focus:lighten($link,10%),
+		$link--hover:lighten($link,10%),
+		$link--active:spin($link,180),
+		$has-underline:false
+		// ---------------------------------------------------------------------
+	) {
+	@include link-colors($link,$link--hover,$link--active,$link--visited,$link--focus);
+	@if $has-underline == true {
+		text-decoration:underline;
+	} @else if $has-underline == 'on-hover' {
+		text-decoration:none;
+		&:hover, &:focus, &:active {
+			text-decoration:underline;
+		}
+	} @else {
+		text-decoration:none;
+	}
+}
+
+// 5.0 layout
+// -----------------------------------------------------------------------------
+// 5.1 position
+// -----------------------------------------------------------------------------
+// position mixins, generating either rem (y position - with pixel fall back) or
+// percentage (x position) values, based on $value or $value and
+// $containing-width
+// -----------------------------------------------------------------------------
+@mixin top(
+		// properties
+		// ---------------------------------------------------------------------
+		$top
+		// ---------------------------------------------------------------------
+	) {
+	top:$top + px;
+	top:($top / 10) + rem;
+}
+
+@mixin right(
+		// properties
+		// ---------------------------------------------------------------------
+		$right,
+		$containing-width
+		// ---------------------------------------------------------------------
+	) {
+	right:percentage($right / $containing-width);
+}
+
+
+@mixin bottom(
+		// properties
+		// ---------------------------------------------------------------------
+		$bottom
+		// ---------------------------------------------------------------------
+	) {
+	bottom:$bottom + px;
+	bottom:($bottom / 10) + rem;
+}
+
+@mixin left(
+		// properties
+		// ---------------------------------------------------------------------
+		$left,
+		$containing-width
+		// ---------------------------------------------------------------------
+	) {
+	left:percentage($left / $containing-width);
+}
+
+// 5.2 width and height
+// -----------------------------------------------------------------------------
+// width and height mixins, generating either rem (height, with pixel fall back)
+// or percentage (width) values, based on $value and $containing-width
+// -----------------------------------------------------------------------------
+@mixin width(
+		// properties
+		// ---------------------------------------------------------------------
+		$width,
+		$containing-width
+		// ---------------------------------------------------------------------
+	) {
+	width:percentage($width / $containing-width);
+}
+
+@mixin min-width(
+		// properties
+		// ---------------------------------------------------------------------
+		$min-width,
+		$containing-width
+		// ---------------------------------------------------------------------
+	) {
+	min-width:percentage($min-width / $containing-width);
+}
+
+@mixin max-width(
+		// properties
+		// ---------------------------------------------------------------------
+		$max-width,
+		$containing-width
+		// ---------------------------------------------------------------------
+	) {
+	max-width:percentage($max-width / $containing-width);
+}
+
+@mixin height(
+		// properties
+		// ---------------------------------------------------------------------
+		$height
+		// ---------------------------------------------------------------------
+	) {
+	height:$height + px;
+	height:($height / 10) + rem;
+}
+
+@mixin min-height(
+		// properties
+		// ---------------------------------------------------------------------
+		$min-height
+		// ---------------------------------------------------------------------
+	) {
+	min-height:$min-height + px;
+	min-height:($min-height / 10) + rem;
+}
+
+@mixin max-height(
+		// properties
+		// ---------------------------------------------------------------------
+		$max-height
+		// ---------------------------------------------------------------------
+	) {
+	max-height:$max-height + px;
+	max-height:($max-height / 10) + rem;
+}
+
+// 5.3 margin
+// -----------------------------------------------------------------------------
+// generic mixins to set all margin properties, with rem on the y axis (with
+// pixel fallback) and either pixel or percentage on the x axis
+// -----------------------------------------------------------------------------
+@mixin margin(
+	// properties
+	// ---------------------------------------------------------------------
+	$top:0,
+	$right:0,
+	$bottom:0,
+	$left:0,
+	$containing-width:false
+	// ---------------------------------------------------------------------
+	) {
+	$top--px:$top + px;
+	$top--rem:($top / 10) + rem;
+	$bottom--px:$bottom + px;
+	$bottom--rem:($bottom / 10) + rem;
+	@if $containing-width {
+		$right--percentage:percentage($right / $containing-width);
+		$left--percentage:percentage($left / $containing-width);
+		margin:$top--px $right--percentage $bottom--px $left--percentage;
+		margin:$top--rem $right--percentage $bottom--rem $left--percentage;
+	} @else {
+		$right--px:$right + px;
+		$left--px:$left + px;
+		margin:$top--px $right--px $bottom--px $left--px;
+		margin:$top--rem $right--px $bottom--rem $left--px;
+	}
+}
+
+// -----------------------------------------------------------------------------
+// mixings for individual properties – $containing-width can be supplied to x
+// axis mixins to generate percentage values
+// -----------------------------------------------------------------------------
+@mixin margin-top(
+		// properties
+		// ---------------------------------------------------------------------
+		$margin-top
+		// ---------------------------------------------------------------------
+	) {
+	margin-top:$margin-top + px;
+	margin-top:($margin-top / 10) + rem;
+}
+
+@mixin margin-right(
+		// properties
+		// ---------------------------------------------------------------------
+		$margin-right,
+		$containing-width
+		// ---------------------------------------------------------------------
+	) {
+	margin-right:percentage($margin-right / $containing-width);
+}
+
+@mixin margin-bottom(
+		// properties
+		// ---------------------------------------------------------------------
+		$margin-bottom
+		// ---------------------------------------------------------------------
+	) {
+	margin-bottom:$margin-bottom + px;
+	margin-bottom:($margin-bottom / 10) + rem;
+}
+
+@mixin margin-left(
+		// properties
+		// ---------------------------------------------------------------------
+		$margin-left,
+		$containing-width
+		// ---------------------------------------------------------------------
+	) {
+	margin-left:percentage($margin-left / $containing-width);
+}
+
+// 5.4 padding
+// -----------------------------------------------------------------------------
+// generic mixins to set all padding properties, with rem on the y axis (with
+// pixel fallback) and either pixel or percentage on the x axis
+// -----------------------------------------------------------------------------
+@mixin padding(
+	// properties
+	// ---------------------------------------------------------------------
+	$top:0,
+	$right:0,
+	$bottom:0,
+	$left:0,
+	$containing-width:false
+	// ---------------------------------------------------------------------
+	) {
+	$top--px:$top + px;
+	$top--rem:($top / 10) + rem;
+	$bottom--px:$bottom + px;
+	$bottom--rem:($bottom / 10) + rem;
+	@if $containing-width {
+		$right--percentage:percentage($right / $containing-width);
+		$left--percentage:percentage($left / $containing-width);
+		padding:$top--px $right--percentage $bottom--px $left--percentage;
+		padding:$top--rem $right--percentage $bottom--rem $left--percentage;
+	} @else {
+		$right--px:$right + px;
+		$left--px:$left + px;
+		padding:$top--px $right--px $bottom--px $left--px;
+		padding:$top--rem $right--px $bottom--rem $left--px;
+	}
+}
+
+// -----------------------------------------------------------------------------
+// mixins for individual properties – $containing-width can be supplied to x
+// axis mixins to generate percentage values
+// -----------------------------------------------------------------------------
+@mixin padding-top(
+		// properties
+		// ---------------------------------------------------------------------
+		$padding-top
+		// ---------------------------------------------------------------------
+	) {
+	padding-top:$padding-top + px;
+	padding-top:($padding-top / 10) + rem;
+}
+
+@mixin padding-right(
+		// properties
+		// ---------------------------------------------------------------------
+		$padding-right,
+		$containing-width
+		// ---------------------------------------------------------------------
+	) {
+	padding-right:percentage($padding-right / $containing-width);
+}
+
+@mixin padding-bottom(
+		// properties
+		// ---------------------------------------------------------------------
+		$padding-bottom
+		// ---------------------------------------------------------------------
+	) {
+	padding-bottom:$padding-bottom + px;
+	padding-bottom:($padding-bottom / 10) + rem;
+}
+
+@mixin padding-left(
+		// properties
+		// ---------------------------------------------------------------------
+		$padding-left,
+		$containing-width
+		// ---------------------------------------------------------------------
+	) {
+	padding-left:percentage($padding-left / $containing-width);
+}
+
+
+// 6.0 modules
+// -----------------------------------------------------------------------------

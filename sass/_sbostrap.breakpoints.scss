@@ -1,0 +1,85 @@
+// -----------------------------------------------------------------------------
+// Table of contents
+// --------------------------------------
+// 1.0 imports
+// 2.0 variables
+// 3.0 general
+// 4.0 type
+// 5.0 layout
+// 6.0 modules
+// -----------------------------------------------------------------------------
+
+// 1.0 imports
+// -----------------------------------------------------------------------------
+
+// 2.0 variables
+// -----------------------------------------------------------------------------
+// Some notes on what happens and when:
+//
+// $breakpoint--smallest, 240px – Minimum page width
+// $breakpoint--small-medium, 521px – Nav to left hand side and type gets larger
+// $breakpoint--medium, 671px – Content navigation has expanded labels
+// $breakpoint--medium-large, 768px – Cards go two up
+// $breakpoint--large, 791px – Page tools go down the right hand side
+// $breakpoint--larger-largest, 1250px – Cards go three up and type gets larger
+// -----------------------------------------------------------------------------
+$breakpoint--smallest:240px; // in pixels as ems doesn't work as min-width here
+// $breakpoint--smaller:;
+$breakpoint--small:20em; // 320px
+$breakpoint--small-medium:32.5625em; // 521px
+$breakpoint--medium:41.9375em; // 671px
+$breakpoint--medium-large:48em; // 768px
+$breakpoint--large:49.4375em; // 791px
+$breakpoint--large-larger:50.6875em; // 811px
+$breakpoint--larger:69em; // 1104px
+$breakpoint--larger-largest:78.125em; // 1250px
+$breakpoint--largest:100.0625em; // 1601px
+
+// 3.0 general
+// -----------------------------------------------------------------------------
+
+// 4.0 type
+// -----------------------------------------------------------------------------
+// defines font family on the <head> element to give us a hook for javascript so
+// we don't have to replicate the css breakpoints in our js files – wrapped in a
+// mixin and included in base.scss so isn't repeated, via @import, across all
+// our various stylesheets
+// -----------------------------------------------------------------------------
+@mixin js__breakpoint-hooks {
+    head {
+        font-family:"breakpoint--smallest";
+        @media (min-width:$breakpoint--small) {
+            font-family:"breakpoint--small";
+        }
+        @media (min-width:$breakpoint--small-medium) {
+            font-family:"breakpoint--small-medium";
+        }
+        @media (min-width:$breakpoint--medium) {
+            font-family:"breakpoint--medium";
+        }
+        @media (min-width:$breakpoint--medium-large) {
+            font-family:"breakpoint--medium-large";
+        }
+        @media (min-width:$breakpoint--large) {
+            font-family:"breakpoint--large";
+        }
+        @media (min-width:$breakpoint--large-larger) {
+            font-family:"breakpoint--large-larger";
+        }
+        @media (min-width:$breakpoint--larger) {
+            font-family:"breakpoint--larger";
+        }
+        @media (min-width:$breakpoint--larger-largest) {
+            font-family:"breakpoint--larger-largest";
+        }
+        @media (min-width:$breakpoint--largest) {
+            font-family:"breakpoint--largest";
+        }
+    }
+}
+
+// 5.0 layout
+// -----------------------------------------------------------------------------
+
+// 6.0 modules
+// -----------------------------------------------------------------------------
